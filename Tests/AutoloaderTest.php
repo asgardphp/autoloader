@@ -31,13 +31,13 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($after);
 	}
 
-	public function testGoUp() {
+	public function testNestedNamespace() {
 		$autoloader = $this->unsetComposer();
 
 		include __DIR__.'/Fixtures/GlobalNamespaceFoo.php';
 
 		$before = class_exists('Test\Foo');
-		$autoloader->goUp(true); #will search for classes up the namespace, e.g. \Asgard\Core\Foo => \Asgard\Foo
+		$autoloader->nestedNamespace(true); #will search for classes up the namespace, e.g. \Asgard\Core\Foo => \Asgard\Foo
 		$after = class_exists('Test\Foo');
 
 		$this->resetComposer();

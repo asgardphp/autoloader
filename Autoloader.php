@@ -13,6 +13,10 @@ class Autoloader {
 	public $namespaces = [
 		#'App'	=>	'myapp/',
 	];
+
+	public function register() {
+		spl_autoload_register([$this, 'autoload'], false);
+	}
 	
 	public function map($class, $path) {
 		$this->map[$class] = $path;
