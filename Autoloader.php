@@ -17,11 +17,11 @@ class Autoloader {
 	public function register() {
 		spl_autoload_register([$this, 'autoload'], false);
 	}
-	
+
 	public function map($class, $path) {
 		$this->map[$class] = $path;
 	}
-	
+
 	public function namespaceMap($namespace, $dir) {
 		$this->namespaces[$namespace] = $dir;
 	}
@@ -45,11 +45,11 @@ class Autoloader {
 	public function preloadFile($file) {
 		if(!$this->preload)
 			return [];
-		
+
 		list($class) = explode('.', basename($file));
 		$this->map($class, $file);
 	}
-	
+
 	public function preloadDir($dir) {
 		if(!$this->preload)
 			return [];
@@ -108,7 +108,7 @@ class Autoloader {
 					$alias = $class;
 				return $this->importClass($next, $alias);
 			}
-		
+
 			return false;
 		}
 	}
@@ -139,7 +139,7 @@ class Autoloader {
 			#lookup for global classes
 			if($this->search && static::dirname($class) == '.') {
 				$classes = [];
-				
+
 				#check if there is any corresponding class already loaded, e.g. Foo => Test\Foo
 				foreach(array_merge(get_declared_classes(), get_declared_interfaces()) as $v) {
 					if(strtolower(static::basename($class)) == strtolower(static::basename($v)))
@@ -147,15 +147,15 @@ class Autoloader {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function loadClassFile($file, $alias=null) {
 		$before = array_merge(get_declared_classes(), get_declared_interfaces());
 		require_once $file;
 		$after = array_merge(get_declared_classes(), get_declared_interfaces());
-		
+
 		$diff = array_diff($after, $before);
 		$result = static::arrayGet(array_values($diff), count($diff)-1);
 		if(!$result) {
@@ -170,7 +170,7 @@ class Autoloader {
 
 		return $result;
 	}
-	
+
 	protected static function class2path($class) {
 		$className = static::basename($class);
 		$namespace = strtolower(static::dirname($class));
@@ -181,7 +181,7 @@ class Autoloader {
 			$path = $namespace.DIRECTORY_SEPARATOR;
 		else
 			$path = '';
-		$path .= str_replace('_', DIRECTORY_SEPARATOR , $className);				
+		$path .= str_replace('_', DIRECTORY_SEPARATOR , $className);
 
 		return $path.'.php';
 	}
@@ -197,7 +197,7 @@ class Autoloader {
 			return false;
 		}
 	}
-	
+
 	public function autoload($class) {
 		if(class_exists($class))
 			return;
@@ -211,7 +211,7 @@ class Autoloader {
 	protected static function dirname($ns) {
 		return str_replace(DIRECTORY_SEPARATOR, '\\', dirname(str_replace('\\', DIRECTORY_SEPARATOR, $ns)));
 	}
-	
+
 	protected static function arrayGet($arr, $path, $default=null) {
 		if(!is_array($path))
 			$path = [$path];
