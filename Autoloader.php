@@ -7,10 +7,10 @@ class Autoloader {
 	protected $preload = false;
 	protected $cache;
 
-	public $map = [
+	protected $map = [
 		#'Something'	=>	'there/somewhere.php',
 	];
-	public $namespaces = [
+	protected $namespaces = [
 		#'App'	=>	'myapp/',
 	];
 
