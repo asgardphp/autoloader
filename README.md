@@ -1,6 +1,6 @@
 #Autoloader
 
-The Asgard Autoloader supports PSR-4 and provides some additional features that can be used besides the composer autoloader.
+The Asgard Autoloader supports PSR-4 and provides some additional features that can be used in addition to the composer autoloader.
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -32,7 +32,7 @@ Asgard autoloader however does it if you enable it:
 	$autoloader->nestedNamespace(true);
 
 <a name="global-classes"></a>
-##Global classes
+##Search classes
 
 When using a class without namespace, the autoloader will search for the class in the existing or registered ones whose class name is the same.
 
@@ -40,33 +40,40 @@ For example if the class \Namespace\Class exists or is registered via $autoloade
 
 To enable it:
 
-	$autoloader->global(true);
+	$autoloader->search(true);
 
-By combining global and nestedNamespace, the autoloader will be able to match classes like \Namespace\Class to \Anothernamespace\Class if it has to. However it is recommended to use class mapping for better performances.
+By combining search and nestedNamespace, the autoloader will be able to match classes like \Namespace\Class to \Anothernamespace\Class if it has to. However it is recommended to use class mapping for better performances.
 
 <a name="namespace-mapping"></a>
 ##Namespace mapping
+
 Like with composer, you can map a namespace to a specific directory:
 
-	$autoloader->mapNamespace('Namespace', 'myclasses/');
+	$autoloader->namespaceMap('Namespace', 'myclasses/');
 
 <a name="class-mapping"></a>
 ##Class mapping
+
 Like the composer autoloader, you can map a class to a specific file:
 
 	$autoloader->map('MyClass', 'myclass.php');
 
 <a name="preloading-files"></a>
 ##Preloading files
-You can ask the autoloader to analyse a folder's files whose names start with a capital to help it find global classes:
 
-	$autoloader->preload('classes/');
+To enable or disable preloading:
 
-Files like classes\Subfolder\MyClass.php will be mapped to class \MyClass. This preloading can be cached if you provide the autoloader with a cache driver:
+	$autoloader->preload(true); #or false
+
+You can then ask the autoloader to analyse a folder's files whose names start with a capital to help it find global classes:
+
+	$autoloader->preloadDir('classes/');
+
+	$autoloader->preloadFile('classes/MyClass.php');
+
+Files like classes\Subfolder\MyClass.php will be mapped to class \MyClass. The preloading can be cached if you provide the autoloader with a cache driver:
 
 	$autoloader->setCache(new \Asgard\Cache\ApcCache());
-
-#todo ^^^^
 
 ###Contributing
 
